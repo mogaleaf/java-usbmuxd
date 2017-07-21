@@ -26,10 +26,10 @@ import java.util.function.Consumer;
 public abstract class UsbMuxdImpl implements IUsbMuxd {
 
 	private ExecutorService executorService = Executors.newFixedThreadPool(5);
-	private DeviceListener deviceListener = new DeviceListener();
-	private DeviceConnecter deviceConnecter = new DeviceConnecter();
+	protected DeviceListener deviceListener = new DeviceListener();
+	protected DeviceConnecter deviceConnecter = new DeviceConnecter();
 	private Map<Integer, Device> connectedDevices = Collections.synchronizedMap(new LinkedHashMap<>());
-	private boolean isStarted = false;
+	protected boolean isStarted = false;
 	private Socket connectionListeningSocket;
 	private String registerUid;
 
@@ -85,7 +85,7 @@ public abstract class UsbMuxdImpl implements IUsbMuxd {
 	@Override
 	public UsbMuxdConnection connectToDevice(int port, Device device, long time, TimeUnit timeUnit) throws UsbMuxdException {
 		try {
-			Socket connectionSocket = new Socket();
+			Socket connectionSocket = getSocketImpl();
 			connectionSocket.connect(getAddress());
 			byte[] connectByteMessage = PlistMessageService.buildConnectMsg(device.deviceId, port);
 			InputStream inputStream = connectionSocket.getInputStream();
