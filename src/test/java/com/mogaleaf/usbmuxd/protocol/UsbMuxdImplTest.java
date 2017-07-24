@@ -15,10 +15,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.util.Collection;
 import java.util.function.Consumer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -72,7 +74,7 @@ public class UsbMuxdImplTest {
 		connectedMessage.result = 0;
 		ArgumentCaptor<Consumer> argumentCaptor = ArgumentCaptor.forClass(Consumer.class);
 		when(deviceListener.register(argumentCaptor.capture())).thenReturn("test");
-		when(deviceConnecter.getConnectionResult(anyObject())).thenReturn(connectedMessage );
+		when(deviceConnecter.getConnectionResult(anyObject())).thenReturn(connectedMessage);
 		instance.isStarted = true;
 		DeviceConnectionMessage fakeMessage = new DeviceConnectionMessage();
 		fakeMessage.type = DeviceConnectionMessage.Type.Add;
@@ -100,10 +102,48 @@ public class UsbMuxdImplTest {
 		});
 		consumerThread.start();
 
-		producerThread.join();
-		consumerThread.join();
+		producerThread.join(1000);
+		consumerThread.join(1000);
 
 
+	}
+
+	@Test
+	public void testStartListening() {
+		try {
+			ArgumentCaptor<Consumer> argumentCaptor = ArgumentCaptor.forClass(Consumer.class);
+			instance.startListening();
+			verify(deviceListener).register(argumentCaptor.capture());
+			verify(deviceListener).start(inputStream);
+			verify(outputStream).write(any());
+			assertThat(instance.isStarted).isTrue();
+
+		} catch (UsbMuxdException e) {
+			fail(e.getMessage());
+		} catch (IOException e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void stopListening() {
+		try {
+			ArgumentCaptor<Consumer> argumentCaptor = ArgumentCaptor.forClass(Consumer.class);
+			when(deviceListener.register(any())).thenReturn("test");
+			instance.startListening();
+			instance.stopListening();
+			verify(deviceListener).unregister("test");
+			verify(deviceListener).stop();
+			assertThat(instance.isStarted).isFalse();
+		} catch (UsbMuxdException e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testConnectedDevices(){
+		Collection<Device> devices = instance.connectedDevices();
+		assertThat(devices).isNotSameAs(instance.connectedDevices());
 	}
 
 }

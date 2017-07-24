@@ -3,13 +3,9 @@ package com.mogaleaf;
 import com.mogaleaf.usbmuxd.api.IUsbMuxd;
 import com.mogaleaf.usbmuxd.api.UsbMuxdFactory;
 import com.mogaleaf.usbmuxd.api.exception.UsbMuxdException;
-import com.mogaleaf.usbmuxd.api.model.Device;
 import com.mogaleaf.usbmuxd.api.model.UsbMuxdConnection;
-import com.mogaleaf.usbmuxd.protocol.win.UsbMuxdWindows;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.Collection;
 
 
 public class Main {
@@ -29,7 +25,10 @@ public class Main {
 				}
 			});
 			usbMuxdDriver.startListening();
-			//Thread.sleep(10000);
+
+			UsbMuxdConnection usbMuxdConnection = usbMuxdDriver.connectToFirstDevice(62078);
+			usbMuxdConnection.outputStream.write(/*anyByte*/0);
+			//Thread.sleep(10000);wri
 			//usbMuxdDriver.stopListening();
 			/*
 			UsbMuxdConnection usbMuxdConnection = usbMuxdDriver.connectToFirstDevice(62078);
