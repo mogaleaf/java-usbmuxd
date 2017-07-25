@@ -128,7 +128,6 @@ public class UsbMuxdImplTest {
 	@Test
 	public void stopListening() {
 		try {
-			ArgumentCaptor<Consumer> argumentCaptor = ArgumentCaptor.forClass(Consumer.class);
 			when(deviceListener.register(any())).thenReturn("test");
 			instance.startListening();
 			instance.stopListening();

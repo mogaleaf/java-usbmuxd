@@ -7,8 +7,6 @@ import java.io.InputStream;
 
 public class DeviceConnecter {
 
-	private boolean running = false;
-
 
 	public ConnectedMessage getConnectionResult(InputStream inputStream) {
 		try {

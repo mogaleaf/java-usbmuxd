@@ -1,7 +1,6 @@
 package com.mogaleaf.usbmuxd.protocol;
 
 import com.dd.plist.NSDictionary;
-import com.mogaleaf.usbmuxd.api.model.Device;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Matchers;
@@ -16,33 +15,24 @@ import java.nio.charset.Charset;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-public class DeviceListenerTest {
+public class DeviceConnecterTest {
 
-	DeviceListener instance;
+	DeviceConnecter instance;
 
 	@Mock
 	InputStream inputStream;
 
-
 	@Before
 	public void setup() throws IOException {
 		MockitoAnnotations.initMocks(this);
-		instance = new DeviceListener();
+		instance = new DeviceConnecter();
 	}
 
-
 	@Test
-	public void testAttached() throws IOException, InterruptedException {
-
+	public void testgetConnectionResult() throws IOException {
 		NSDictionary root = new NSDictionary();
-		root.put("MessageType", "Attached");
-		NSDictionary props = new NSDictionary();
-		root.put("Properties", props);
-		props.put("SerialNumber", "123");
-		props.put("ConnectionType", "usb");
-		props.put("DeviceID", "1");
-		props.put("LocationID", "lo");
-		props.put("ProductID", "po");
+		root.put("MessageType", "Result");
+		root.put("Number", 0);
 		String s = root.toXMLPropertyList();
 		byte[] bytes = s.getBytes(Charset.forName("UTF-8"));
 		ByteBuffer msg = PlistMessageService.buildByteMsg(bytes);
@@ -51,18 +41,9 @@ public class DeviceListenerTest {
 		msg.get(first);
 		msg.get(seconde);
 		when(inputStream.read(Matchers.argThat(new InputStreamMockHelper(first,seconde)))).thenReturn(1);
-		instance.start(inputStream);
-		instance.register(d -> {
-			Device device = d.device;
-			assertThat(device.deviceId).isEqualTo(1);
-			assertThat(device.connectionType).isEqualTo("usb");
-			assertThat(device.serialNumber).isEqualTo("123");
-			assertThat(device.locationId).isEqualTo("lo");
-			assertThat(device.productId).isEqualTo("po");
-			instance.stop();
-		});
-		instance.run();
-	}
+		ConnectedMessage connectionResult = instance.getConnectionResult(inputStream);
+		assertThat(connectionResult.result).isEqualTo(0);
 
+	}
 
 }
