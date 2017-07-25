@@ -1,9 +1,9 @@
-#Detect and communicate with your iphone/ipad.
+# Detect and communicate with your iphone/ipad.
 
 - API to use usbmuxd in java.
 - If using windows, itunes must have been installed in order to have usbmuxd drivers.
 
-###Easy to use :
+### Easy to use :
 
 **Connect to the first device :**
 
