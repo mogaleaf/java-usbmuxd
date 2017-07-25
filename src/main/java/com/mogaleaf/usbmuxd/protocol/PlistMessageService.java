@@ -29,7 +29,7 @@ public class PlistMessageService {
 	}
 
 
-	private static byte[] buildDeviceConnectMsg(int deviceId, int port) {
+	protected static byte[] buildDeviceConnectMsg(int deviceId, int port) {
 		NSDictionary root = new NSDictionary();
 		root.put("MessageType", "Connect");
 		root.put("ClientVersionString", "mogaleaf-usbmux-driver");
@@ -40,11 +40,11 @@ public class PlistMessageService {
 		return s.getBytes(Charset.forName("UTF-8"));
 	}
 
-	private static int swapPortNumber(int port) {
+	protected static int swapPortNumber(int port) {
 		return ((port << 8) & 0xFF00) | (port >> 8);
 	}
 
-	private static byte[] buildPlistConnectionMsg(){
+	protected static byte[] buildPlistConnectionMsg(){
 		NSDictionary root = new NSDictionary();
 		root.put("MessageType", "Listen");
 		root.put("ClientVersionString", "mogaleaf-usbmux-driver");
@@ -53,7 +53,7 @@ public class PlistMessageService {
 		return s.getBytes(Charset.forName("UTF-8"));
 	}
 
-	private static ByteBuffer buildByteMsg(byte[] bytes) {
+	protected static ByteBuffer buildByteMsg(byte[] bytes) {
 		int len = (16 + bytes.length);
 		int version = 1;
 		int request = 8;
