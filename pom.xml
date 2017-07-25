@@ -8,6 +8,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -62,12 +63,12 @@
         </dependency>
 
 
-        <!-- https://mvnrepository.com/artifact/com.kohlschutter.junixsocket/junixsocket-native -->
+        <!-- https://mvnrepository.com/artifact/com.kohlschutter.junixsocket/junixsocket-native
         <dependency>
             <groupId>com.kohlschutter.junixsocket</groupId>
             <artifactId>junixsocket-native</artifactId>
             <version>2.0.4</version>
-        </dependency>
+        </dependency>-->
 
 
 
