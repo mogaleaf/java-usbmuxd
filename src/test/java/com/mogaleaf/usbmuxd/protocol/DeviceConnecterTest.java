@@ -3,7 +3,6 @@ package com.mogaleaf.usbmuxd.protocol;
 import com.dd.plist.NSDictionary;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -13,6 +12,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
 public class DeviceConnecterTest {
@@ -40,10 +40,25 @@ public class DeviceConnecterTest {
 		byte[] seconde = new byte[bytes.length];
 		msg.get(first);
 		msg.get(seconde);
-		when(inputStream.read(Matchers.argThat(new InputStreamMockHelper(first,seconde)))).thenReturn(1);
+		when(inputStream.read(any(byte[].class))).then(arg -> {
+			byte[] argumentAt = arg.getArgumentAt(0, byte[].class);
+			byte[] cpy = null;
+			if(argumentAt.length == first.length){
+				cpy = first;
+			} else if(argumentAt.length == seconde.length){
+				cpy = seconde;
+			}
+			if(cpy != null){
+				int i = 0;
+				for (byte b : cpy) {
+					argumentAt[i++] = b;
+				}
+			}
+			return 1;
+		});
+
 		ConnectedMessage connectionResult = instance.getConnectionResult(inputStream);
 		assertThat(connectionResult.result).isEqualTo(0);
-
 	}
 
 }
