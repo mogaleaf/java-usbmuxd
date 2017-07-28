@@ -37,6 +37,7 @@ public class PlistMessageService {
 		root.put("DeviceID", new NSNumber(deviceId));
 		root.put("PortNumber", new NSNumber(swapPortNumber(port)));
 		String s = root.toXMLPropertyList();
+		//System.out.println(s);
 		return s.getBytes(Charset.forName("UTF-8"));
 	}
 
@@ -50,6 +51,7 @@ public class PlistMessageService {
 		root.put("ClientVersionString", "mogaleaf-usbmux-driver");
 		root.put("ProgName", "mogaleaf-usbmux-driver");
 		String s = root.toXMLPropertyList();
+		//System.out.println(s);
 		return s.getBytes(Charset.forName("UTF-8"));
 	}
 
@@ -95,6 +97,15 @@ public class PlistMessageService {
 
 	public enum ResultType {
 		Attached, Detached, Paired, Result, Error
+	}
+
+	public static byte[] tryLockDown() {
+		NSDictionary root = new NSDictionary();
+		root.put("Label", "iTunesHelper");
+		root.put("Request", "QueryType");
+		String s = root.toXMLPropertyList();
+		System.out.println(s);
+		return s.getBytes(Charset.forName("UTF-8"));
 	}
 
 }
