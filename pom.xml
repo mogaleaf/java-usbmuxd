@@ -117,7 +117,7 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:git://github.com/mogaleaf/java-usbmuxd.git</connection>
+        <connection>https://github.com/mogaleaf/java-usbmuxd</connection>
         <developerConnection>scm:git:ssh://github.com:mogaleaf/java-usbmuxd.git</developerConnection>
         <url>https://github.com/mogaleaf/java-usbmuxd/tree/master</url>
     </scm>
