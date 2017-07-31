@@ -91,7 +91,10 @@
         </repository>
     </distributionManagement>
 
-    <properties><java.version>1.8</java.version></properties>
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <groupId>com.mogaleaf</groupId>
     <artifactId>usbmuxd</artifactId>
@@ -121,7 +124,6 @@
         <developerConnection>scm:git:https://github.com/mogaleaf/java-usbmuxd.git</developerConnection>
         <url>https://github.com/mogaleaf/java-usbmuxd/tree/master</url>
     </scm>
-
 
 
     <dependencies>
@@ -173,8 +175,6 @@
         </dependency>-->
 
     </dependencies>
-
-
 
 
 </project>
