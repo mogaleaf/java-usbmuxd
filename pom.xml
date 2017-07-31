@@ -96,7 +96,7 @@
 
     <groupId>com.mogaleaf</groupId>
     <artifactId>usbmuxd</artifactId>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
 
     <name>usbmuxd</name>
     <description>Lib to communicate via usbmuxd to an iphone/ipad</description>
@@ -121,7 +121,7 @@
         <connection>https://github.com/mogaleaf/java-usbmuxd</connection>
         <developerConnection>scm:git:https://github.com/mogaleaf/java-usbmuxd.git</developerConnection>
         <url>https://github.com/mogaleaf/java-usbmuxd/tree/master</url>
-      <tag>usbmuxd-1.0</tag>
+      <tag>HEAD</tag>
   </scm>
 
 
